@@ -1,108 +1,120 @@
-
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viaggio Bali & Kuala Lumpur 2026</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
-.page { padding: 1.5rem 0; }
-.tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 0; }
-.tab { padding: 8px 16px; font-size: 14px; cursor: pointer; border-radius: var(--border-radius-md) var(--border-radius-md) 0 0; color: var(--color-text-secondary); border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tab.active { color: var(--color-text-primary); border-bottom: 2px solid var(--color-text-primary); font-weight: 500; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f0; color: #1a1a1a; min-height: 100vh; }
+  .container { max-width: 680px; margin: 0 auto; padding: 24px 16px 60px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; color: #1a1a1a; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
 
-/* VOLI */
-.flight-day { margin-bottom: 1.5rem; }
-.flight-day-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
-.flight-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 8px; }
-.flight-airline { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.flight-row { display: flex; align-items: center; gap: 0; }
-.flight-endpoint { min-width: 70px; }
-.flight-endpoint .time { font-size: 20px; font-weight: 500; color: var(--color-text-primary); line-height: 1.1; }
-.flight-endpoint .code { font-size: 12px; color: var(--color-text-secondary); }
-.flight-endpoint .date { font-size: 11px; color: var(--color-text-tertiary); }
-.flight-middle { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 12px; }
-.flight-duration { font-size: 11px; color: var(--color-text-tertiary); }
-.flight-line { width: 100%; display: flex; align-items: center; gap: 4px; }
-.flight-line-bar { flex: 1; height: 0.5px; background: var(--color-border-secondary); }
-.flight-stop { font-size: 11px; color: var(--color-text-tertiary); }
-.flight-endpoint.right { text-align: right; }
-.layover { font-size: 12px; color: var(--color-text-warning); background: var(--color-background-warning); border-radius: var(--border-radius-md); padding: 4px 10px; margin: 4px 0 4px 0; display: inline-block; }
+  /* TABS */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid #ddd; margin-bottom: 24px; }
+  .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: none; color: #888; border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: 6px 6px 0 0; transition: color .15s; }
+  .tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+  .tab:hover { color: #1a1a1a; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
-/* CHECKLIST */
-.progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-.pb-wrap { flex: 1; background: var(--color-background-secondary); border-radius: 99px; height: 5px; overflow: hidden; }
-.pb { height: 5px; border-radius: 99px; background: var(--color-text-success); transition: width .3s; }
-.prog-txt { font-size: 13px; color: var(--color-text-secondary); white-space: nowrap; }
-.sync-row { display: flex; align-items: center; gap: 6px; margin-bottom: 1.5rem; }
-.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-text-tertiary); }
-.sync-dot.ok { background: var(--color-text-success); }
-.sync-dot.saving { background: var(--color-text-warning); }
-.sync-txt { font-size: 12px; color: var(--color-text-tertiary); }
-.sec { margin-bottom: 1.5rem; }
-.sec-hdr { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; padding-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 6px; }
-.item { display: flex; align-items: flex-start; gap: 12px; padding: 7px 8px; border-radius: var(--border-radius-md); cursor: pointer; }
-.item:hover { background: var(--color-background-secondary); }
-.item.done .lbl { text-decoration: line-through; color: var(--color-text-tertiary); }
-.cb { width: 17px; height: 17px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; border: 1.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; }
-.item.done .cb { background: var(--color-background-success); border-color: var(--color-border-success); }
-.item.done .cb::after { content:''; display:block; width:9px; height:5px; border-left:2px solid var(--color-text-success); border-bottom:2px solid var(--color-text-success); transform:rotate(-45deg) translateY(-1px); }
-.lbl { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; flex: 1; }
-.note { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-.tag { display:inline-block; font-size:10px; font-weight:500; padding:1px 6px; border-radius:99px; margin-left:5px; vertical-align:middle; }
-.tag-kl { background:var(--color-background-info); color:var(--color-text-info); }
-.tag-bali { background:var(--color-background-success); color:var(--color-text-success); }
-.tag-ci { background:var(--color-background-warning); color:var(--color-text-warning); }
-.urgent { display:inline-block; font-size:10px; font-weight:500; padding:1px 6px; border-radius:99px; margin-left:5px; background:var(--color-background-danger); color:var(--color-text-danger); vertical-align:middle; }
+  /* VOLI */
+  .flight-day { margin-bottom: 20px; }
+  .flight-day-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+  .flight-card { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; }
+  .flight-airline { font-size: 12px; color: #888; margin-bottom: 10px; }
+  .flight-row { display: flex; align-items: center; }
+  .flight-ep { min-width: 80px; }
+  .flight-ep.right { text-align: right; }
+  .flight-ep .time { font-size: 22px; font-weight: 600; color: #1a1a1a; line-height: 1.1; }
+  .flight-ep .code { font-size: 12px; color: #888; margin-top: 2px; }
+  .flight-ep .city { font-size: 11px; color: #aaa; }
+  .flight-mid { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 12px; }
+  .flight-dur { font-size: 11px; color: #aaa; }
+  .flight-line { width: 100%; display: flex; align-items: center; gap: 6px; }
+  .flight-bar { flex: 1; height: 1px; background: #ddd; }
+  .flight-icon { font-size: 16px; color: #bbb; }
+  .layover { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #b45309; background: #fef3c7; border-radius: 8px; padding: 5px 10px; margin: 4px 0 8px; }
+
+  /* CHECKLIST */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .progress-label { font-size: 13px; color: #888; }
+  .progress-pct { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-left: auto; }
+  .progress-bar-bg { width: 100%; height: 5px; background: #e8e8e4; border-radius: 99px; overflow: hidden; }
+  .progress-bar { height: 5px; background: #16a34a; border-radius: 99px; transition: width .3s; }
+  .sync-row { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+  .sync-dot.ok { background: #16a34a; }
+  .sync-dot.saving { background: #f59e0b; }
+  .sync-txt { font-size: 12px; color: #aaa; }
+  .sec { margin-bottom: 24px; }
+  .sec-hdr { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .06em; padding-bottom: 8px; border-bottom: 1px solid #e8e8e4; margin-bottom: 6px; }
+  .item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .1s; }
+  .item:hover { background: #f5f5f0; }
+  .item.done .lbl { text-decoration: line-through; color: #aaa; }
+  .cb { width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; border: 1.5px solid #ccc; display: flex; align-items: center; justify-content: center; transition: background .15s, border-color .15s; }
+  .item.done .cb { background: #16a34a; border-color: #16a34a; }
+  .checkmark { display: none; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translateY(-1px); }
+  .item.done .checkmark { display: block; }
+  .lbl { font-size: 13px; color: #1a1a1a; line-height: 1.5; flex: 1; }
+  .note { font-size: 11px; color: #888; margin-top: 2px; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 99px; margin-left: 5px; vertical-align: middle; }
+  .tag-kl { background: #dbeafe; color: #1d4ed8; }
+  .tag-bali { background: #dcfce7; color: #15803d; }
+  .tag-ci { background: #fef3c7; color: #b45309; }
+  .urgent { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 99px; margin-left: 5px; background: #fee2e2; color: #dc2626; vertical-align: middle; }
+
+  @media (max-width: 480px) {
+    .flight-ep .time { font-size: 18px; }
+    .flight-ep { min-width: 60px; }
+  }
 </style>
-
-<div class="page">
-  <h2 class="sr-only">Viaggio Bali e Kuala Lumpur — voli e checklist</h2>
+</head>
+<body>
+<div class="container">
+  <h1>✈️ Bali & Kuala Lumpur 2026</h1>
+  <p class="subtitle">15 giugno – 7 luglio 2026 · Famiglia</p>
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab('voli')"><i class="ti ti-plane" aria-hidden="true"></i> Voli</button>
-    <button class="tab" onclick="showTab('checklist')"><i class="ti ti-checklist" aria-hidden="true"></i> Checklist</button>
+    <button class="tab active" onclick="showTab('voli', this)">Voli</button>
+    <button class="tab" onclick="showTab('checklist', this)">Checklist</button>
   </div>
 
+  <!-- VOLI -->
   <div id="tab-voli" class="tab-content active">
 
     <div class="flight-day">
       <div class="flight-day-label">15 giugno 2026 — partenza</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Vueling</div>
+        <div class="flight-airline">Vueling</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">13:00</div><div class="code">LPA</div><div class="date">Gran Canaria</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">2h 50m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">16:45</div><div class="code">MAD</div><div class="date">Madrid</div></div>
+          <div class="flight-ep"><div class="time">13:00</div><div class="code">LPA</div><div class="city">Gran Canaria</div></div>
+          <div class="flight-mid"><div class="flight-dur">2h 50m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">16:45</div><div class="code">MAD</div><div class="city">Madrid</div></div>
         </div>
       </div>
-      <div class="layover"><i class="ti ti-clock" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Scalo Madrid: 5h 05m</div>
+      <div class="layover">⏱ Scalo Madrid: 5h 05m</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Etihad Airways · EY104</div>
+        <div class="flight-airline">Etihad Airways · EY104</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">21:50</div><div class="code">MAD</div><div class="date">Madrid</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">6h 55m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">06:45</div><div class="code">AUH</div><div class="date">Abu Dhabi +1</div></div>
+          <div class="flight-ep"><div class="time">21:50</div><div class="code">MAD</div><div class="city">Madrid</div></div>
+          <div class="flight-mid"><div class="flight-dur">6h 55m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">06:45</div><div class="code">AUH</div><div class="city">Abu Dhabi +1</div></div>
         </div>
       </div>
     </div>
 
     <div class="flight-day">
       <div class="flight-day-label">16 giugno 2026</div>
-      <div class="layover" style="margin-bottom:8px"><i class="ti ti-clock" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Scalo Abu Dhabi: 1h 40m</div>
+      <div class="layover">⏱ Scalo Abu Dhabi: 1h 40m</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Etihad Airways · EY486</div>
+        <div class="flight-airline">Etihad Airways · EY486</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">08:25</div><div class="code">AUH</div><div class="date">Abu Dhabi</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">7h 20m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">19:45</div><div class="code">KUL</div><div class="date">Kuala Lumpur</div></div>
+          <div class="flight-ep"><div class="time">08:25</div><div class="code">AUH</div><div class="city">Abu Dhabi</div></div>
+          <div class="flight-mid"><div class="flight-dur">7h 20m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">19:45</div><div class="code">KUL</div><div class="city">Kuala Lumpur</div></div>
         </div>
       </div>
     </div>
@@ -110,14 +122,11 @@ body { font-family: var(--font-sans); }
     <div class="flight-day">
       <div class="flight-day-label">19 giugno 2026 — KL → Bali</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> AirAsia · AK368</div>
+        <div class="flight-airline">AirAsia · AK368</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">12:50</div><div class="code">KUL</div><div class="date">Kuala Lumpur T2</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">3h 10m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">16:00</div><div class="code">DPS</div><div class="date">Bali T1</div></div>
+          <div class="flight-ep"><div class="time">12:50</div><div class="code">KUL</div><div class="city">Kuala Lumpur T2</div></div>
+          <div class="flight-mid"><div class="flight-dur">3h 10m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">16:00</div><div class="code">DPS</div><div class="city">Bali T1</div></div>
         </div>
       </div>
     </div>
@@ -125,14 +134,11 @@ body { font-family: var(--font-sans); }
     <div class="flight-day">
       <div class="flight-day-label">4 luglio 2026 — Bali → KL</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> AirAsia · AK377</div>
+        <div class="flight-airline">AirAsia · AK377</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">15:25</div><div class="code">DPS</div><div class="date">Bali T1</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">3h 05m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">18:30</div><div class="code">KUL</div><div class="date">Kuala Lumpur T2</div></div>
+          <div class="flight-ep"><div class="time">15:25</div><div class="code">DPS</div><div class="city">Bali T1</div></div>
+          <div class="flight-mid"><div class="flight-dur">3h 05m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">18:30</div><div class="code">KUL</div><div class="city">Kuala Lumpur T2</div></div>
         </div>
       </div>
     </div>
@@ -140,183 +146,179 @@ body { font-family: var(--font-sans); }
     <div class="flight-day">
       <div class="flight-day-label">5 luglio 2026 — rientro</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Etihad Airways · EY487</div>
+        <div class="flight-airline">Etihad Airways · EY487</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">21:55</div><div class="code">KUL</div><div class="date">Kuala Lumpur</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">6h 55m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">00:50</div><div class="code">AUH</div><div class="date">Abu Dhabi +1</div></div>
+          <div class="flight-ep"><div class="time">21:55</div><div class="code">KUL</div><div class="city">Kuala Lumpur</div></div>
+          <div class="flight-mid"><div class="flight-dur">6h 55m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">00:50</div><div class="code">AUH</div><div class="city">Abu Dhabi +1</div></div>
         </div>
       </div>
     </div>
 
     <div class="flight-day">
-      <div class="flight-day-label">6 luglio 2026</div>
-      <div class="layover" style="margin-bottom:8px"><i class="ti ti-clock" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Scalo Abu Dhabi: 13h 15m</div>
+      <div class="flight-day-label">6 luglio 2026 — Gran Canaria</div>
+      <div class="layover">⏱ Scalo Abu Dhabi: 13h 15m</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Etihad Airways · EY103</div>
+        <div class="flight-airline">Etihad Airways · EY103</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">14:05</div><div class="code">AUH</div><div class="date">Abu Dhabi</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">7h 35m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">19:40</div><div class="code">MAD</div><div class="date">Madrid</div></div>
+          <div class="flight-ep"><div class="time">14:05</div><div class="code">AUH</div><div class="city">Abu Dhabi</div></div>
+          <div class="flight-mid"><div class="flight-dur">7h 35m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">19:40</div><div class="code">MAD</div><div class="city">Madrid</div></div>
         </div>
       </div>
-      <div class="layover" style="margin-top:8px;margin-bottom:8px"><i class="ti ti-clock" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Scalo Madrid: 3h 15m</div>
+      <div class="layover">⏱ Scalo Madrid: 3h 15m</div>
       <div class="flight-card">
-        <div class="flight-airline"><i class="ti ti-plane-departure" aria-hidden="true"></i> Iberia Express · I21631</div>
+        <div class="flight-airline">Iberia Express · I21631</div>
         <div class="flight-row">
-          <div class="flight-endpoint"><div class="time">22:55</div><div class="code">MAD</div><div class="date">Madrid</div></div>
-          <div class="flight-middle">
-            <div class="flight-duration">2h 50m · non stop</div>
-            <div class="flight-line"><div class="flight-line-bar"></div><i class="ti ti-plane" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i><div class="flight-line-bar"></div></div>
-          </div>
-          <div class="flight-endpoint right"><div class="time">00:45</div><div class="code">LPA</div><div class="date">Gran Canaria +1</div></div>
+          <div class="flight-ep"><div class="time">22:55</div><div class="code">MAD</div><div class="city">Madrid</div></div>
+          <div class="flight-mid"><div class="flight-dur">2h 50m · non stop</div><div class="flight-line"><div class="flight-bar"></div><span class="flight-icon">✈</span><div class="flight-bar"></div></div></div>
+          <div class="flight-ep right"><div class="time">00:45</div><div class="code">LPA</div><div class="city">Gran Canaria +1</div></div>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- CHECKLIST -->
   <div id="tab-checklist" class="tab-content">
-    <div class="progress-row">
-      <span class="prog-txt"><span id="done-count">0</span> / <span id="tot">0</span></span>
-      <div class="pb-wrap"><div class="pb" id="pbar" style="width:0%"></div></div>
-      <span class="prog-txt" id="pct">0%</span>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <span class="progress-label"><span id="done-count">0</span> / <span id="tot">0</span> completati</span>
+        <span class="progress-pct" id="pct">0%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="pbar" style="width:0%"></div></div>
     </div>
-    <div class="sync-row">
-      <span class="sync-dot" id="sdot"></span>
-      <span class="sync-txt" id="stxt">caricamento...</span>
-    </div>
+    <div class="sync-row"><span class="sync-dot" id="sdot"></span><span class="sync-txt" id="stxt">caricamento...</span></div>
     <div id="sections"></div>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'viaggio_bali_kl_v1';
+var STORAGE_KEY = 'bali_kl_trip_2026';
 
-const checklistData = [
-  { icon:'ti-plane', label:'Check-in voli', items:[
-    { id:'ci1', label:'Check-in Vueling LPA→MAD (15 giu 13:00)', note:'Apre 48h prima → da fare il 13 giu entro le 13:00 su vueling.com', tag:'ci' },
-    { id:'ci2', label:'Check-in Etihad EY104+EY486 MAD→AUH→KUL (15 giu 21:50)', note:'Apre 24h prima → da fare il 14 giu entro le 21:50 su etihad.com', tag:'ci' },
-    { id:'ci3', label:'Check-in AirAsia AK368 KUL→DPS (19 giu 12:50)', note:'Apre 14 giorni prima → da fare entro il 19 giu ore 11:50 su airasia.com', tag:'ci' },
-    { id:'ci4', label:'Check-in AirAsia AK377 DPS→KUL (4 lug 15:25)', note:'Apre 14 giorni prima → da fare entro il 4 lug ore 14:25 su airasia.com', tag:'ci' },
-    { id:'ci5', label:'Check-in Etihad EY487+EY103 KUL→AUH→MAD (5 lug 21:55)', note:'Apre 24h prima → da fare il 4 lug entro le 21:55 su etihad.com', tag:'ci' },
-    { id:'ci6', label:'Check-in Iberia Express I21631 MAD→LPA (6 lug 22:55)', note:'Apre 48h prima → da fare il 4 lug entro le 22:55 su iberia.com', tag:'ci' }
+var checklistData = [
+  { label:'Check-in voli', items:[
+    { id:'ci1', label:'Check-in Vueling LPA→MAD (13 giu entro 13:00)', note:'Apre 48h prima su vueling.com', tag:'ci' },
+    { id:'ci2', label:'Check-in Etihad EY104+EY486 MAD→AUH→KUL (14 giu entro 21:50)', note:'Apre 24h prima su etihad.com', tag:'ci' },
+    { id:'ci3', label:'Check-in AirAsia AK368 KUL→DPS (entro 19 giu 11:50)', note:'Apre 14 giorni prima su airasia.com', tag:'ci' },
+    { id:'ci4', label:'Check-in AirAsia AK377 DPS→KUL (entro 4 lug 14:25)', note:'Apre 14 giorni prima su airasia.com', tag:'ci' },
+    { id:'ci5', label:'Check-in Etihad EY487+EY103 KUL→AUH→MAD (4 lug entro 21:55)', note:'Apre 24h prima su etihad.com', tag:'ci' },
+    { id:'ci6', label:'Check-in Iberia Express I21631 MAD→LPA (4 lug entro 22:55)', note:'Apre 48h prima su iberia.com', tag:'ci' }
   ]},
-  { icon:'ti-id', label:'Documenti e visti', items:[
+  { label:'Documenti e visti', items:[
     { id:'doc1', label:'Passaporti validi per tutti (min. 6 mesi dopo il 7 luglio)', note:'Controlla anche bambini e nonna' },
-    { id:'doc7', label:'MDAC — Malaysia Digital Arrival Card (uno per persona)', urgent:true, note:'Gratuita, 24–72h prima su imigresen-online.imi.gov.my/mdac/main', tag:'kl' },
-    { id:'doc2', label:'Visto Indonesia eVOA (uno per persona, bambini inclusi)', urgent:true, note:'molasimba.imigrasi.go.id — farlo almeno 1 settimana prima', tag:'bali' },
-    { id:'doc3', label:'Malaysia: nessun visto richiesto (passaporto italiano)', note:'Ingresso libero fino a 90 giorni — solo MDAC', tag:'kl' },
+    { id:'doc7', label:'MDAC — Malaysia Digital Arrival Card (uno per persona)', urgent:true, note:'Gratuita, 24–72h prima: imigresen-online.imi.gov.my/mdac/main', tag:'kl' },
+    { id:'doc2', label:'Visto Indonesia eVOA (uno per persona, bambini inclusi)', urgent:true, note:'molasimba.imigrasi.go.id — almeno 1 settimana prima', tag:'bali' },
+    { id:'doc3', label:'Malaysia: nessun visto richiesto (passaporto italiano)', note:'Solo MDAC necessaria', tag:'kl' },
     { id:'doc4', label:'Patente internazionale', note:'Indispensabile a Bali — si guida a sinistra', tag:'bali' },
     { id:'doc5', label:'Foto fototessera di scorta per tutti', note:null },
     { id:'doc6', label:'Copia digitale di tutti i documenti sul telefono', note:null }
   ]},
-  { icon:'ti-ticket', label:'Prenotazioni e biglietti', items:[
+  { label:'Prenotazioni e biglietti', items:[
     { id:'res0', label:'Confermare Crown Suites Tropicana KLCC (16–19 giugno)', urgent:true, note:'Arrivo dalle 15:00 — partenza entro le 12:00 del 19', tag:'kl' },
     { id:'res1', label:'Biglietti Petronas Twin Towers', note:'eticket.petronastwintowers.com.my — si esauriscono', tag:'kl' },
     { id:'res3', label:'Confermare Karang Padma Villas, Uluwatu (19 giugno)', urgent:true, note:null, tag:'bali' },
     { id:'res4', label:'Confermare Gayatri Retreat, Ubud (24–29 giugno)', urgent:true, note:null, tag:'bali' },
     { id:'res5', label:'Confermare Royal VIP Glamping Kintamani (29–30 giugno)', urgent:true, note:null, tag:'bali' },
-    { id:'res6', label:'Confermare Dani Beach Villa, Tejakula (30 giu – 4 lug)', urgent:true, note:'Già prenotato ✅ — richiedi contatto diretto', tag:'bali' },
+    { id:'res6', label:'Confermare Dani Beach Villa, Tejakula (30 giu–4 lug)', urgent:true, note:'Già prenotato ✅ — richiedi contatto diretto', tag:'bali' },
     { id:'res7', label:'Transfer Tejakula → Denpasar il 4 luglio', urgent:true, note:'Partenza entro le 11:00 — 2.5h di guida. Minivan privato', tag:'bali' },
     { id:'res8', label:'Prenotare spettacolo Kecak a Uluwatu', note:'Molto richiesto — acquista online in anticipo', tag:'bali' }
   ]},
-  { icon:'ti-currency-dollar', label:'Soldi e pagamenti', items:[
+  { label:'Assicurazione di viaggio', items:[
+    { id:'ins1', label:'Acquistare assicurazione di viaggio', urgent:true, note:'IATI Seguros consigliata — verifica copertura medica ed evacuazione' }
+  ]},
+  { label:'Soldi e pagamenti', items:[
     { id:'mon1', label:'Valuta: Ringgit malaysiano (MYR) per KL', note:'Meglio cambiare in città, non in aeroporto', tag:'kl' },
     { id:'mon2', label:'Valuta: Rupie indonesiane (IDR) per Bali', note:'Agli sportelli autorizzati a Bali, non in aeroporto', tag:'bali' },
-    { id:'mon3', label:'Avvisare la banca dei viaggi all\'estero', note:'Malaysia + Indonesia — per evitare blocchi' },
+    { id:'mon3', label:'Avvisare la banca dei viaggi all\'estero', note:'Malaysia + Indonesia — per evitare blocchi su carte' },
     { id:'mon4', label:'Portare sia contanti che carta di credito', note:null }
   ]},
-  { icon:'ti-first-aid-kit', label:'Salute e farmacia', items:[
-    { id:'hlt1', label:'Vaccini consigliati dal medico', note:'Epatite A, Tifo, Tetano' },
+  { label:'Salute e farmacia', items:[
+    { id:'hlt1', label:'Vaccini consigliati (Epatite A, Tifo, Tetano)', note:'Consulta il medico per tempo' },
     { id:'hlt2', label:'Farmaci per diarrea e stomaco', note:null },
-    { id:'hlt3', label:'Crema solare + antizanzare DEET', note:'Soprattutto per i bambini' },
+    { id:'hlt3', label:'Crema solare alta protezione + antizanzare DEET', note:'Soprattutto per i bambini' },
     { id:'hlt4', label:'Farmaci abituali (scorta per tutta la durata)', note:'Verifica dosaggi per bambini' },
     { id:'hlt5', label:'Kit primo soccorso base', note:null }
   ]},
-  { icon:'ti-backpack', label:'Bagagli', items:[
-    { id:'bag1', label:'Abbigliamento leggero + pareo per i templi', note:'Spalle e gambe coperte — vale anche per le moschee a KL' },
-    { id:'bag2', label:'Scarpe per trekking leggero', note:'Cascate Sekumpul e Banyumala', tag:'bali' },
-    { id:'bag3', label:'Ciabatte acquatici per snorkeling', note:null, tag:'bali' },
+  { label:'Bagagli', items:[
+    { id:'bag1', label:'Abbigliamento leggero + pareo per i templi', note:'Spalle e gambe coperte obbligatorie — vale anche moschee a KL' },
+    { id:'bag2', label:'Scarpe per trekking leggero (cascate)', note:'Sekumpul e Banyumala a Bali', tag:'bali' },
+    { id:'bag3', label:'Ciabatte acquatiche per snorkeling', note:null, tag:'bali' },
     { id:'bag4', label:'Adattatori presa corrente', note:'KL: tipo G (UK) — Bali: tipo C/F — meglio universale' },
     { id:'bag5', label:'Power bank', note:null }
   ]},
-  { icon:'ti-device-mobile', label:'App e connettività', items:[
-    { id:'app1', label:'SIM / eSIM Malaysia', note:'Maxis o Digi — acquistabile a KLIA', tag:'kl' },
-    { id:'app2', label:'SIM / eSIM Indonesia', note:'Telkomsel o XL — acquistabile a Denpasar', tag:'bali' },
-    { id:'app3', label:'App Grab (KL + Bali)', note:'Molto più economico dei taxi' },
-    { id:'app4', label:'Mappe offline KL + Bali', note:'Google Maps / Maps.me — indispensabile a Tejakula' },
+  { label:'App e connettività', items:[
+    { id:'app1', label:'SIM / eSIM Malaysia (Maxis o Digi)', note:'Acquistabile a KLIA', tag:'kl' },
+    { id:'app2', label:'SIM / eSIM Indonesia (Telkomsel o XL)', note:'Acquistabile a Denpasar', tag:'bali' },
+    { id:'app3', label:'App Grab scaricata (KL + Bali)', note:'Molto più economico dei taxi' },
+    { id:'app4', label:'Mappe offline KL + Bali', note:'Google Maps / Maps.me' },
     { id:'app5', label:'Google Translate offline: malese + indonesiano', note:null }
   ]}
 ];
 
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('active'); });
   document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
-let state = {};
-let saveTimer = null;
+var state = {};
 
 function setSync(s) {
-  const dot = document.getElementById('sdot');
-  const txt = document.getElementById('stxt');
-  if (s==='ok'){dot.className='sync-dot ok';txt.textContent='sincronizzato';}
-  else if (s==='saving'){dot.className='sync-dot saving';txt.textContent='salvataggio...';}
-  else{dot.className='sync-dot';txt.textContent='offline';}
+  var dot = document.getElementById('sdot');
+  var txt = document.getElementById('stxt');
+  if (s === 'ok') { dot.className = 'sync-dot ok'; txt.textContent = 'salvato'; }
+  else if (s === 'saving') { dot.className = 'sync-dot saving'; txt.textContent = 'salvataggio...'; }
+  else { dot.className = 'sync-dot'; txt.textContent = 'offline — le spunte si salvano solo su questo dispositivo'; }
 }
 
-async function loadState() {
-  try { const r = await window.storage.get(STORAGE_KEY, true); if(r&&r.value) state=JSON.parse(r.value); setSync('ok'); }
-  catch(e){ state={}; setSync('offline'); }
+function loadState() {
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) state = JSON.parse(saved);
+    setSync('ok');
+  } catch(e) { state = {}; setSync('offline'); }
 }
 
-async function saveState() {
-  setSync('saving');
-  try { await window.storage.set(STORAGE_KEY, JSON.stringify(state), true); setSync('ok'); }
-  catch(e){ setSync('offline'); }
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setSync('ok'); }
+  catch(e) { setSync('offline'); }
 }
-
-function scheduleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveState,600); }
 
 function updateProgress() {
-  const ids = checklistData.flatMap(s=>s.items.map(i=>i.id));
-  const done = ids.filter(id=>state[id]).length;
-  const pct = ids.length ? Math.round(done/ids.length*100) : 0;
-  document.getElementById('done-count').textContent=done;
-  document.getElementById('tot').textContent=ids.length;
-  document.getElementById('pct').textContent=pct+'%';
-  document.getElementById('pbar').style.width=pct+'%';
+  var ids = checklistData.reduce(function(acc, s){ return acc.concat(s.items.map(function(i){ return i.id; })); }, []);
+  var done = ids.filter(function(id){ return state[id]; }).length;
+  var pct = ids.length ? Math.round(done / ids.length * 100) : 0;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('tot').textContent = ids.length;
+  document.getElementById('pct').textContent = pct + '%';
+  document.getElementById('pbar').style.width = pct + '%';
 }
 
 function renderChecklist() {
-  const container = document.getElementById('sections');
-  container.innerHTML='';
-  checklistData.forEach(sec => {
-    const sd=document.createElement('div'); sd.className='sec';
-    const hdr=document.createElement('div'); hdr.className='sec-hdr';
-    hdr.innerHTML=`<i class="ti ${sec.icon}" aria-hidden="true"></i>${sec.label}`;
+  var container = document.getElementById('sections');
+  container.innerHTML = '';
+  checklistData.forEach(function(sec) {
+    var sd = document.createElement('div'); sd.className = 'sec';
+    var hdr = document.createElement('div'); hdr.className = 'sec-hdr'; hdr.textContent = sec.label;
     sd.appendChild(hdr);
-    sec.items.forEach(it => {
-      const div=document.createElement('div');
-      div.className='item'+(state[it.id]?' done':'');
-      div.setAttribute('role','checkbox');
-      div.setAttribute('aria-checked',state[it.id]?'true':'false');
-      div.setAttribute('tabindex','0');
-      const tagHtml = it.tag==='kl'?'<span class="tag tag-kl">KL</span>'
-        :it.tag==='bali'?'<span class="tag tag-bali">Bali</span>'
-        :it.tag==='ci'?'<span class="tag tag-ci">check-in</span>':'';
-      div.innerHTML=`<div class="cb"></div><div><div class="lbl">${it.label}${it.urgent?'<span class="urgent">urgente</span>':''}${tagHtml}</div>${it.note?`<div class="note">${it.note}</div>`:''}</div>`;
-      div.addEventListener('click',()=>{ state[it.id]=!state[it.id]; div.classList.toggle('done',state[it.id]); div.setAttribute('aria-checked',state[it.id]?'true':'false'); updateProgress(); scheduleSave(); });
-      div.addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){e.preventDefault();div.click();}});
+    sec.items.forEach(function(it) {
+      var div = document.createElement('div');
+      div.className = 'item' + (state[it.id] ? ' done' : '');
+      var tagHtml = it.tag === 'kl' ? '<span class="tag tag-kl">KL</span>'
+        : it.tag === 'bali' ? '<span class="tag tag-bali">Bali</span>'
+        : it.tag === 'ci' ? '<span class="tag tag-ci">check-in</span>' : '';
+      var urgentHtml = it.urgent ? '<span class="urgent">urgente</span>' : '';
+      div.innerHTML = '<div class="cb"><div class="checkmark"></div></div>'
+        + '<div><div class="lbl">' + it.label + urgentHtml + tagHtml + '</div>'
+        + (it.note ? '<div class="note">' + it.note + '</div>' : '') + '</div>';
+      div.addEventListener('click', function() {
+        state[it.id] = !state[it.id];
+        div.classList.toggle('done', state[it.id]);
+        updateProgress();
+        saveState();
+      });
       sd.appendChild(div);
     });
     container.appendChild(sd);
@@ -324,5 +326,8 @@ function renderChecklist() {
   updateProgress();
 }
 
-(async()=>{ await loadState(); renderChecklist(); })();
+loadState();
+renderChecklist();
 </script>
+</body>
+</html>
